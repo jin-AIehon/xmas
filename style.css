@@ -1,0 +1,158 @@
+:root {
+  --bg: #0b0f14;
+  --shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: radial-gradient(1200px 800px at 50% 30%, #172233, var(--bg));
+  color: #fff;
+}
+
+.stage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.scene {
+  position: relative;
+  width: min(420px, 92vw);
+  height: min(720px, 82vh);
+  display: grid;
+  place-items: center;
+}
+
+/* 封筒ボタン */
+.envelopeBtn {
+  position: relative;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  width: min(360px, 86vw);
+  outline: none;
+  transition: transform .25s ease;
+}
+.envelopeBtn:active { transform: scale(0.98); }
+
+.envelope {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 18px 40px rgba(0,0,0,.35));
+  user-select: none;
+}
+
+.tapHint{
+  position: absolute;
+  left: 50%;
+  bottom: -42px;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: .85;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* 手紙（封筒から出る） */
+.letterWrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(320px, 76vw);
+  transform: translate(-50%, -50%) translateY(60px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform .9s cubic-bezier(.2,.9,.2,1),
+    opacity .35s ease;
+}
+
+.letter {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  user-select: none;
+}
+
+/* ステップ1：手紙が封筒から出てくる */
+.scene.step1 .letterWrap {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(-30px);
+}
+
+/* 封筒は少しだけ下げて奥に */
+.scene.step1 .envelopeBtn {
+  transform: translateY(18px) scale(.98);
+  opacity: .95;
+}
+
+/* ステップ2：手紙を強調 → オーバーレイへ誘導 */
+.scene.step2 .letterWrap {
+  transform: translate(-50%, -50%) translateY(-60px) scale(1.03);
+}
+
+/* 最終：オーバーレイ（手紙拡大） */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.78);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+  z-index: 999;
+}
+
+.overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlayLetter {
+  width: min(720px, 94vw);
+  max-height: 92vh;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 30px 90px rgba(0,0,0,.55);
+  animation: pop .28s ease-out;
+  user-select: none;
+}
+
+@keyframes pop {
+  from { transform: scale(.96); opacity: .6; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.closeBtn {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* アニメが苦手な人向け（OS設定） */
+@media (prefers-reduced-motion: reduce) {
+  .letterWrap, .overlay, .envelopeBtn { transition: none !important; }
+  .overlayLetter { animation: none !important; }
+}

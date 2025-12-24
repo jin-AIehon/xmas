@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>招待状</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main class="stage" aria-label="招待状アニメーション">
+    <div class="scene" id="scene">
+      <!-- 封筒 -->
+      <button class="envelopeBtn" id="openBtn" aria-label="封筒を開く">
+        <img
+          class="envelope"
+          src="./assets/envelope.png"
+          alt="封筒"
+          draggable="false"
+        />
+        <span class="tapHint" aria-hidden="true">タップして開く</span>
+      </button>
+
+      <!-- 手紙（封筒から出てくる） -->
+      <div class="letterWrap" id="letterWrap" aria-hidden="true">
+        <img
+          class="letter"
+          id="letterImg"
+          src="./assets/letter.png"
+          alt="手紙"
+          draggable="false"
+        />
+      </div>
+
+      <!-- 最後に手紙を大きく表示するオーバーレイ -->
+      <div class="overlay" id="overlay" aria-hidden="true">
+        <button class="closeBtn" id="closeBtn" aria-label="閉じる">×</button>
+       <img class="overlayLetter" src="./assets/letter.png" alt="手紙（拡大）" draggable="false" />
+      </div>
+    </div>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
